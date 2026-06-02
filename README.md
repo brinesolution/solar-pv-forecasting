@@ -134,10 +134,6 @@ This repository is a research project, not a production forecasting service. The
 
 No local virtual environment, cache folder, or internal helper script folder is included.
 
-## Citation
-
-If you use this repository, cite the related manuscript and this GitHub repository. A draft citation file is provided in `CITATION.cff`; update it with the final DOI or archived repository DOI when available.
-
 ## Author
 
 Mayank Lohani  
