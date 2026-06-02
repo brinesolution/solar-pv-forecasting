@@ -1,0 +1,51 @@
+{
+  "generated_at_utc": "2026-05-06T21:39:51.535706+00:00",
+  "row_count": 525888,
+  "columns": [
+    "time",
+    "irradiance",
+    "power",
+    "theoretical_power",
+    "temp",
+    "humidity",
+    "wind_speed",
+    "precipitation",
+    "cloud_cover",
+    "cloud_cover_low",
+    "cloud_cover_mid",
+    "cloud_cover_high"
+  ],
+  "time_range": [
+    "01-01-2021 00:00",
+    "31-12-2025 23:55"
+  ],
+  "plant_constants": {
+    "latitude": 13.04,
+    "area_eff": 181.591,
+    "rated_kw": 43.625
+  },
+  "degradation_pct_per_year": 0.005,
+  "noise_sigma_daytime": 0.015,
+  "rng_seed": 42,
+  "kt_model": {
+    "kind": "XGBoost",
+    "n_estimators": 600,
+    "max_depth": 7,
+    "learning_rate": 0.04,
+    "train_rows": 32871,
+    "train_r2": 0.9359592571758543,
+    "train_mae": 0.06270694375957338
+  },
+  "sources": {
+    "weather": "analyzeCLAUDE/wheatherdata.csv",
+    "cloud": "analyzeCLAUDE/cloudcover.xlsx",
+    "real_scada": "analyzeCLAUDE/DataSet.csv"
+  },
+  "yearly_99pct_power_kw": {
+    "2021": 43.625,
+    "2022": 43.469,
+    "2023": 43.277,
+    "2024": 43.035,
+    "2025": 42.816
+  }
+}

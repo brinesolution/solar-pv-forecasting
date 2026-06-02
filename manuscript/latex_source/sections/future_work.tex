@@ -1,0 +1,14 @@
+\section{Future Work}
+\label{sec:future}
+
+\input{tables/deployment_checklist}
+
+Future work should first test transferability across additional PV plants and inverter configurations. A second site would clarify whether the learned cloud-layer behavior is location-specific or more general. Another direction is uncertainty forecasting. Point forecasts support scheduling, but prediction intervals would better capture overcast or ramp-heavy periods.
+
+Another extension is missing-data robustness. Real plant archives often contain irregular timestamps, faulty sensor blocks, or periods where inverter data are unavailable. A production pipeline should include explicit quality flags and should report separate results for clean, imputed, and fault-filtered records. The present study uses target-channel rows retained after machine-fault, hardware-error, shutdown, and invalid-sensor periods were omitted, so a future fault-aware version should not simply train on corrupted records. Instead, it should classify whether a period is a weather-driven low-power event, a sensor-quality event, or an equipment-state event, and then decide whether to forecast, impute, or exclude that interval.
+
+The baseline study also suggests a natural next experiment. The proposed weather-input path should be tested at several explicit forecast horizons: one-step-ahead, 30-min-ahead, 1-h-ahead, and day-ahead. At very short horizons, live last-value and ramp-aware persistence baselines may be extremely strong. At longer horizons, previous-day, clear-sky-index persistence, and weather-forecast models become more appropriate. Reporting horizon-specific skill would make the operational use case sharper.
+
+Table~\ref{tab:deployment_checklist} summarizes the engineering checks that should accompany any deployment-oriented extension. These checks are included because the workflow already supports a forecast-CSV inference path, so the next research step is to harden the data contract around timezone, weather-source type, feature availability, post-processing, monitoring, and retraining triggers, not simply to add a larger model. For a plant operator, a smaller transparent model with a reliable deployment contract may be preferable to a larger model whose inputs are not reproducible.
+
+Finally, the forecast can be connected to microgrid scheduling and demand-response studies. In that setting, the PV forecast would serve as an input to load shifting, battery scheduling, or residential energy-management algorithms rather than being merged into the forecasting model itself. Game-theoretic or demand-response optimization could be explored in a follow-up paper, but it should not dilute the present manuscript's narrower forecasting contribution.

@@ -1,0 +1,21 @@
+\begin{table*}[!t]
+\caption{Evaluation masks and row-count predicates used for the reported experiment.}
+\label{tab:evaluation_masks}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}X>{\raggedleft\arraybackslash}p{0.12\textwidth}@{}}
+\toprule
+Use & Predicate & Rows \\
+\midrule
+Retained 5-min grid & Sorted unique IST timestamps after data cleaning. Machine-fault, hardware-error, shutdown, and invalid-sensor periods are omitted before this retained grid is modeled. & 525,888 \\
+Stage-2 training block & $t<\mathrm{2024\mbox{-}01\mbox{-}01}$ and all active Stage-2 features available. The first 12 raw training rows are unavailable because 1-h lag features require previous samples. & 315,348 \\
+Validation block & $\mathrm{2024\mbox{-}01\mbox{-}01}\leq t<\mathrm{2024\mbox{-}12\mbox{-}28}$ with the active feature list complete. & 104,256 \\
+All test block & $t\geq\mathrm{2024\mbox{-}12\mbox{-}28}$ with the active feature list complete. & 106,272 \\
+Stage-1 training mask & Stage-2 training block plus $\alpha(t)>5^\circ$; the target is the clipped $\kt$ definition in Eq.~\eqref{eq:kt}. & 148,269 \\
+Stage-1 test mask & All test block plus $\alpha(t)>5^\circ$ for Stage-1 transmissivity diagnostics. & 49,923 \\
+Headline daylight test & All test block plus $\Gcs(t)>10$ W/m$^2$ for power-forecast reporting. & 52,731 \\
+Previous-day common mask & Headline daylight test plus available $P(t-24~\mathrm{h})$. & 52,598 \\
+\bottomrule
+\end{tabularx}
+\end{table*}

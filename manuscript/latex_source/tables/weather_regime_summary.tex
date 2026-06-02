@@ -1,0 +1,17 @@
+\begin{table}[!t]
+\caption{Daylight error by total-cloud-cover regime.}
+\label{tab:weather_regime_summary}
+\centering
+\scriptsize
+\begin{tabularx}{\columnwidth}{@{}l>{\raggedright\arraybackslash}Xrrr@{}}
+\toprule
+Regime & Rule & $n$ & MAE & RMSE \\
+\midrule
+Clear & cloud cover $<30\%$ & 9,066 & 1.275 & 1.730 \\
+Partly cloudy & $30\%\leq$ cloud cover $<70\%$ & 11,572 & 1.742 & 2.411 \\
+Overcast & cloud cover $\geq70\%$ & 32,093 & 2.237 & 3.189 \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+\raggedright\footnotesize{All rows also satisfy the headline daylight mask $\Gcs(t)>10$ W/m$^2$. MAE and RMSE are in kW.}
+\end{table}

@@ -1,0 +1,25 @@
+\begin{table}[!t]
+\caption{Dataset quality and split audit used for manuscript evaluation.}
+\label{tab:data_quality_summary}
+\centering
+\small
+\begin{tabularx}{\columnwidth}{@{}l>{\raggedright\arraybackslash}X@{}}
+\toprule
+Check & Result \\
+\midrule
+Time span & 2021-01-01 00:00:00 to 2025-12-31 23:55:00 \\
+Rows after timestamp de-duplication & 525,888 \\
+Duplicate timestamps removed & 0 \\
+Dominant cadence & 5.0 min \\
+Detected cadence gaps & 0 \\
+Missing values & none \\
+Machine/hardware fault handling & Fault, shutdown, and invalid sensor periods omitted during data cleaning \\
+Power range & 0.000 to 43.624 kW \\
+Irradiance range & 0.0 to 1125.0 W/m$^2$ \\
+Raw train/validation/test rows & 315,360 / 104,256 / 106,272 \\
+Feature-available train/validation/test rows & 315,348 / 104,256 / 106,272 \\
+Raw rows in test interval & 106,272 \\
+Daylight test rows ($G_{cs}>10$ W/m$^2$) & 52,731 \\
+\bottomrule
+\end{tabularx}
+\end{table}

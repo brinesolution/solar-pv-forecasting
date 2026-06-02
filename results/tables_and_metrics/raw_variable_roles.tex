@@ -1,0 +1,24 @@
+\begin{table*}[!t]
+\caption{Raw dataset variables and their role in the forecasting pipeline.}
+\label{tab:raw_variable_roles}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l l >{\raggedright\arraybackslash}X@{}}
+\toprule
+Variable & Unit/type & Manuscript role \\
+\midrule
+\texttt{time} & timestamp & Defines the 5-min grid, chronological split, calendar harmonics, lags, and rolling windows. \\
+\texttt{irradiance} & W/m$^2$ & Measured resource channel used to construct the Stage-1 $\kt$ target and the sensor-assisted diagnostic model; not used as a measured target-time input in the proposed forecast path. \\
+\texttt{power} & kW & Main target variable for plant-level AC power forecasting and all persistence baselines. \\
+\texttt{theoretical\_power} & kW & Logged theoretical-power reference channel used for interpretation and the sensor-assisted diagnostic path; the proposed path instead uses $P_{\mathrm{cs}}(t)$ and $\widehat{P}_{\mathrm{theo},c}(t)$ derived from timestamp, location, and Stage-1 estimates. \\
+\texttt{temp} & $^\circ$C & Meteorological input; contributes to seasonal behavior, dew-point approximation, and temperature-related atmospheric variation. \\
+\texttt{humidity} & \% & Meteorological input; used directly, as monthly anomaly, and in dew-point/spread features. \\
+\texttt{wind\_speed} & m/s & Meteorological input; proxy for local atmospheric movement and cooling/ramp context. \\
+\texttt{precipitation} & mm & Meteorological input; rolling sums capture rain and storm context over 1-h, 3-h, and 24-h windows. \\
+\texttt{cloud\_cover} & \% & Total cloud-cover predictor and source for lag, rolling, and change features. \\
+\texttt{cloud\_cover\_low} & \% & Cloud-layer predictor associated with rapid attenuation and sharp ramps. \\
+\texttt{cloud\_cover\_mid} & \% & Cloud-layer predictor that helps separate mid-level attenuation from total cloudiness. \\
+\texttt{cloud\_cover\_high} & \% & Cloud-layer predictor associated with smoother high-cloud attenuation and diffuse-light effects. \\
+\bottomrule
+\end{tabularx}
+\end{table*}

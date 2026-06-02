@@ -1,0 +1,69 @@
+\documentclass{ieeeaccess}
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage[hidelinks]{hyperref}
+
+\input{macros/paper_macros}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2026.DOI}
+\title{A Physics-Guided Two-Stage XGBoost Workflow for 5-Minute-Grid Solar PV Power Prediction Using Operational Weather and Plant Data}
+
+\author{\uppercase{Mayank Lohani}\authorrefmark{1},
+\uppercase{Sudha A.}\authorrefmark{2},
+\uppercase{Prabhakar M.}\authorrefmark{3}, and
+\uppercase{Arul R.}\authorrefmark{4}}
+
+\affil[1]{School of Computer Science and Engineering, Vellore Institute of Technology Chennai, Chennai, India (ORCID: \href{https://orcid.org/0009-0009-5706-6995}{0009-0009-5706-6995})}
+\affil[2]{Centre for Smart Grid Technologies and School of Computer Science and Engineering, Vellore Institute of Technology Chennai, Chennai, India (ORCID: \href{https://orcid.org/0000-0002-7886-2327}{0000-0002-7886-2327})}
+\affil[3]{Centre for Smart Grid Technologies and School of Electrical Engineering, Vellore Institute of Technology Chennai, Chennai, India (ORCID: \href{https://orcid.org/0000-0002-5830-5937}{0000-0002-5830-5937})}
+\affil[4]{Centre for Smart Grid Technologies and School of Electrical Engineering, Vellore Institute of Technology Chennai, Chennai, India (ORCID: \href{https://orcid.org/0000-0002-6094-5925}{0000-0002-6094-5925})}
+
+\markboth
+{Lohani \headeretal: Physics-Guided Two-Stage XGBoost Forecasting for Solar PV}
+{Lohani \headeretal: Physics-Guided Two-Stage XGBoost Forecasting for Solar PV}
+\corresp{Corresponding author: Sudha A. (ORCID: \href{https://orcid.org/0000-0002-7886-2327}{0000-0002-7886-2327}).}
+\fancyhead[L]{IEEE Access}
+
+\begin{document}
+
+\nocite{ref01,ref02,ref03,ref04,ref05,ref06,ref07,ref08,ref09,ref10,ref11,ref12,ref13,ref14,ref15,ref16,ref17,ref18,ref19,ref20,ref21,ref22,ref23,ref24,ref25,ref26,ref27,ref28,ref29,ref30,ref31,ref32,ref33,ref34,ref35,ref36,ref37,ref38,ref39,ref40}
+\nocite{ChenXGBoost2016,HolmgrenPvlib2018,LauretClearSkyIndex2022,PhysicsInformedXGBLSTM2026,AntonanzasPVForecastingReview2016,YangSolarForecastVerification2020,LauretBenchmarkingML2015,PerezVariability2016}
+
+\maketitle
+
+\input{sections/abstract_keywords}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/dataset}
+\input{sections/methodology}
+\input{sections/experimental_setup}
+\input{sections/results_discussion}
+\input{sections/limitations}
+\input{sections/future_work}
+\input{sections/conclusion}
+\input{sections/appendix}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\clearpage
+\onecolumn
+\input{sections/author_biographies}
+
+\end{document}

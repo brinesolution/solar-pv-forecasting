@@ -1,0 +1,28 @@
+{
+  "main": {
+    "R2": 0.9782822720873979,
+    "MAE": 1.3292677246968643,
+    "RMSE": 1.9489872012306553,
+    "nMAE": 3.0470320336890873,
+    "nRMSE": 4.467592438351072,
+    "name": "Two-stage cascade with multi-layer cloud cover (proposed)"
+  },
+  "ablation_single_stage": {
+    "R2": 0.9756480330958832,
+    "MAE": 1.4280258961462484,
+    "RMSE": 2.0638057384330244,
+    "nMAE": 3.2734117963237788,
+    "nRMSE": 4.730786792969684,
+    "name": "Single-stage end-to-end (no kt intermediate)"
+  },
+  "ablation_no_layers": {
+    "R2": 0.9751719456987227,
+    "MAE": 1.3997029775205252,
+    "RMSE": 2.083882063187814,
+    "nMAE": 3.208488200620115,
+    "nRMSE": 4.7768070216339575,
+    "kt_r2_full": 0.9085632226698704,
+    "kt_r2_reduced": 0.9056560380011286,
+    "name": "Two-stage cascade, total cloud cover only"
+  }
+}

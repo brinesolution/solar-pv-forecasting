@@ -1,0 +1,35 @@
+# Operating-system clutter
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Python and Jupyter caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Local environments
+ml_env/
+venv/
+.venv/
+env/
+
+# LaTeX build products
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+
+# Internal helper scripts should not be added to this appendix package
+06_scripts/
+scripts/
+*.py
+
+# Local IDE/project noise
+.vscode/
+.idea/

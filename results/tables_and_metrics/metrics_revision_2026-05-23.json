@@ -1,0 +1,191 @@
+{
+  "created_at": "2026-05-23T10:39:14.380106",
+  "dataset": "C:\\Project_Solar\\02_data\\machine_logs\\vit_chennai_43_624kw_2021_2025_5min.csv",
+  "metadata": "C:\\Project_Solar\\03_models\\active\\v7_metadata.json",
+  "metrics": {
+    "proposed_daylight": {
+      "n": 52731,
+      "MAE": 1.963351315302923,
+      "RMSE": 2.825072431588463,
+      "nMAE": 4.500518774333348,
+      "nRMSE": 6.475810731434873,
+      "R2": 0.9460470697864592,
+      "Pearson_r": 0.9729543694146064,
+      "NSE": 0.9460470697864592,
+      "Bias": 0.28573602436532053
+    },
+    "sensor_daylight": {
+      "n": 52731,
+      "MAE": 0.38675097089981303,
+      "RMSE": 0.5228258316191691,
+      "nMAE": 0.8865351768477089,
+      "nRMSE": 1.1984546283533961,
+      "R2": 0.9981521362917368,
+      "Pearson_r": 0.9991960040606725,
+      "NSE": 0.9981521362917368,
+      "Bias": 0.15963616691382723
+    },
+    "proposed_common_last_value": {
+      "n": 52731,
+      "MAE": 1.963351315302923,
+      "RMSE": 2.825072431588463,
+      "nMAE": 4.500518774333348,
+      "nRMSE": 6.475810731434873,
+      "R2": 0.9460470697864592,
+      "Pearson_r": 0.9729543694146064,
+      "NSE": 0.9460470697864592,
+      "Bias": 0.28573602436532053
+    },
+    "proposed_common_previous_day": {
+      "n": 52598,
+      "MAE": 1.9654315999785734,
+      "RMSE": 2.827672479869985,
+      "nMAE": 4.505287335194438,
+      "nRMSE": 6.481770727495667,
+      "R2": 0.9459628342440956,
+      "Pearson_r": 0.972913009192734,
+      "NSE": 0.9459628342440956,
+      "Bias": 0.28632953421809776
+    }
+  },
+  "baselines": {
+    "last_value_5min": {
+      "n": 52731,
+      "MAE": 0.8960795357569551,
+      "RMSE": 1.2626637730744303,
+      "nMAE": 2.0540505117637937,
+      "nRMSE": 2.8943582190817887,
+      "R2": 0.989222170650123,
+      "Pearson_r": 0.9946109669812132,
+      "NSE": 0.989222170650123,
+      "Bias": 0.00017997003660086074,
+      "skill": -1.2373908967941327
+    },
+    "previous_day": {
+      "n": 52598,
+      "MAE": 3.6100964865584237,
+      "RMSE": 5.461286953959336,
+      "nMAE": 8.275292805864582,
+      "nRMSE": 12.518709350050054,
+      "R2": 0.7984307198728077,
+      "Pearson_r": 0.8992596625776133,
+      "NSE": 0.7984307198728077,
+      "Bias": 0.020894729837636405,
+      "skill": 0.4822333080630432
+    }
+  },
+  "ablations": {
+    "proposed": {
+      "n": 52731,
+      "MAE": 1.963351315302923,
+      "RMSE": 2.825072431588463,
+      "nMAE": 4.500518774333348,
+      "nRMSE": 6.475810731434873,
+      "R2": 0.9460470697864592,
+      "Pearson_r": 0.9729543694146064,
+      "NSE": 0.9460470697864592,
+      "Bias": 0.28573602436532053
+    },
+    "single_stage": {
+      "n": 52731,
+      "MAE": 2.167355800833787,
+      "RMSE": 3.0381770076881356,
+      "nMAE": 4.968150832856818,
+      "nRMSE": 6.964302596419795,
+      "R2": 0.9376003709755999,
+      "Pearson_r": 0.9694471880959717,
+      "NSE": 0.9376003709755999,
+      "Bias": 0.5131654843331449
+    },
+    "total_cloud_only": {
+      "n": 52731,
+      "MAE": 1.9865421975083166,
+      "RMSE": 2.8490221579559347,
+      "nMAE": 4.553678389703878,
+      "nRMSE": 6.530709817664033,
+      "R2": 0.9451284136308336,
+      "Pearson_r": 0.9724058545285328,
+      "NSE": 0.9451284136308336,
+      "Bias": 0.24712357515648617
+    }
+  },
+  "data_quality": {
+    "time_start": "2021-01-01 00:00:00",
+    "time_end": "2025-12-31 23:55:00",
+    "rows": 525888,
+    "duplicate_timestamps": 0,
+    "dominant_cadence_minutes": 5.0,
+    "cadence_gap_count": 0,
+    "missing_by_column": {
+      "time": 0,
+      "irradiance": 0,
+      "power": 0,
+      "theoretical_power": 0,
+      "temp": 0,
+      "humidity": 0,
+      "wind_speed": 0,
+      "precipitation": 0,
+      "cloud_cover": 0,
+      "cloud_cover_low": 0,
+      "cloud_cover_mid": 0,
+      "cloud_cover_high": 0
+    },
+    "power_min": 0.0,
+    "power_max": 43.624,
+    "irradiance_min": 0.0,
+    "irradiance_max": 1125.0,
+    "train_rows": 315348,
+    "validation_rows": 104256,
+    "test_rows": 106272,
+    "raw_test_rows": 106272,
+    "test_start": "2024-12-28",
+    "daylight_cs_irr_min_wm2": 10.0,
+    "stage1_solar_elev_min_deg": 5.0,
+    "test_daylight_rows": 52731,
+    "po_test_rows": 106272,
+    "se_test_rows": 106272,
+    "post_clip_low_count": 0,
+    "post_clip_envelope_count": 53313,
+    "post_clip_rated_count": 0
+  },
+  "postprocessing_audit": {
+    "all_test": {
+      "rows": 106272,
+      "raw_MAE": 1.051595,
+      "raw_RMSE": 1.993021,
+      "post_MAE": 0.974915,
+      "post_RMSE": 1.990066,
+      "negative_raw_count": 0,
+      "envelope_clip_count": 53313,
+      "rated_clip_count": 0
+    },
+    "headline_daylight": {
+      "rows": 52731,
+      "raw_MAE": 1.963412,
+      "raw_RMSE": 2.825074,
+      "post_MAE": 1.963351,
+      "post_RMSE": 2.825072,
+      "negative_raw_count": 0,
+      "envelope_clip_count": 21,
+      "rated_clip_count": 0
+    }
+  },
+  "weather_regime_diagnostics": {
+    "rule": "headline daylight rows binned by total cloud_cover",
+    "clear_lt_30": {
+      "rows": 9066,
+      "MAE": 1.275,
+      "RMSE": 1.730
+    },
+    "partly_30_to_lt_70": {
+      "rows": 11572,
+      "MAE": 1.742,
+      "RMSE": 2.411
+    },
+    "overcast_ge_70": {
+      "rows": 32093,
+      "MAE": 2.237,
+      "RMSE": 3.189
+    }
+  }
+}

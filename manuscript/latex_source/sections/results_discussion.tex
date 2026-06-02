@@ -1,0 +1,193 @@
+\section{Results and Discussion}
+\label{sec:results}
+
+\subsection{Headline Test Performance}
+
+\input{tables/metrics_summary}
+
+Table~\ref{tab:headline_metrics} reports the post-processed daylight performance of the proposed target-weather-input path. The evaluation gives an RMSE of \RMSEproposed, an nRMSE of \NRMSEproposed, an MAE of \MAEproposed, and an $R^2$ of \RtwoProposed{} on \Ntest{} daylight rows. The values are computed from the stated feature definitions, model outputs, Stage-1 clipping, and post-processing rule, so the reported test metrics are tied to a reproducible offline protocol rather than to a lead-time-specific weather-forecast archive.
+
+The positive bias of 0.2857 kW indicates a mild tendency to over-predict during daylight intervals. The error is still small relative to the 43.624 kW plant rating, but it matters for energy scheduling because a persistent positive bias can accumulate over many 5-min intervals. The sensor-assisted diagnostic path, which uses measured irradiance-derived inputs at the target timestamp, reaches 0.5228 kW RMSE. This gap shows that much of the remaining error comes from estimating the solar resource from meteorological and cloud variables rather than from the final XGBoost power-conversion step alone.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/results/predicted_vs_measured_power.png}
+\caption{Predicted and measured power comparison on the held-out test interval. The displayed forecast is post-processed using the plant and theoretical-power envelope.}
+\label{fig:pred_vs_actual}
+\end{figure*}
+
+Fig.~\ref{fig:pred_vs_actual} shows that the forecast follows the broad daily envelope and many within-day variations. The largest deviations occur during transition periods where cloud attenuation changes faster than the available inputs can represent. This behavior is consistent with operational PV forecasting: clear periods are mainly governed by solar geometry, while cloud-edge conditions depend on local motion and thickness information that is not directly measured in the feature set.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/results/sample_day_profiles.png}
+\caption{Sample-day profiles from the held-out period. The selected days make clear-sky, partly cloudy, and ramp-heavy behavior easier to inspect than aggregate metrics alone.}
+\label{fig:sample_days}
+\end{figure*}
+
+Fig.~\ref{fig:sample_days} gives a more direct view of the forecast than a scatter plot. On smoother days, the two-stage model mainly needs to follow the solar envelope and estimate a slowly varying transmissivity. On disturbed days, the same model must track rapid changes in attenuation. The figure helps show whether the reported RMSE comes from many small deviations or from a smaller number of hard ramp events.
+
+\subsection{Baseline Skill and Forecast Interpretation}
+
+\input{tables/baseline_summary}
+
+Table~\ref{tab:baseline_summary} separates the two persistence comparisons and prevents a single ambiguous skill claim. Against previous-day same-time persistence, the proposed model reduces RMSE from 5.4613 kW to 2.8277 kW on the common daylight mask, corresponding to a skill score of 0.4822. Against 5-min last-value persistence, however, the proposed model has negative skill because last-value persistence uses live plant power immediately before the target timestamp and therefore behaves as a strong nowcast. The two baselines should not be collapsed into one claim.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/results/baseline_rmse_skill_comparison.png}
+\caption{RMSE comparison against sensor-assisted and persistence references. Previous-day persistence and 5-min last-value persistence represent different information settings.}
+\label{fig:baseline_skill}
+\end{figure}
+
+The model is therefore positioned as a target-weather-input predictor, not as a replacement for every short-horizon nowcast. It is relevant when weather inputs are available for target timestamps and measured target-time irradiance or live plant power is not part of the feature set. It is not presented as a replacement for a live last-value nowcast when the horizon is only one 5-min step and live SCADA power is available.
+
+\input{tables/error_taxonomy}
+
+Table~\ref{tab:error_taxonomy} translates the diagnostic figures into engineering error modes. This view adds information that a single aggregate RMSE cannot provide. For example, a model can be strong under previous-day persistence comparison and still be inadequate for ramp-aware battery dispatch if the largest errors cluster around fast cloud-edge events. Conversely, a model that loses to 5-min last-value persistence can still be relevant for schedule-oriented or forecast-input workflows where live target-adjacent plant power is not available.
+
+\subsection{Ablation Results}
+
+\input{tables/ablation_summary}
+
+Table~\ref{tab:ablation_summary} gives matched-pipeline ablations. The two-stage cascade improves over a direct single-stage XGBoost model by reducing daylight RMSE from 3.0382 kW to 2.8251 kW. Removing low-, mid-, and high-cloud channels while keeping total cloud cover gives 2.8490 kW RMSE, so the cloud-layer gain is smaller but still measurable. The ablation pattern indicates that the main contribution is an operationally reproducible physics-guided pipeline, not a large algorithmic breakthrough.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/results/ablation_summary.png}
+\caption{Ablation summary evaluated with the common feature pipeline. The largest structural gain comes from keeping the two-stage transmissivity intermediate.}
+\label{fig:ablation}
+\end{figure}
+
+\subsection{Weather-Regime Behavior}
+
+Weather-regime analysis exposes where the model is reliable and where it should be treated carefully. In the held-out test results, daylight MAE is 1.275 kW for clear intervals, 1.742 kW for partly cloudy intervals, and 2.237 kW for overcast intervals. The corresponding RMSE values are 1.730 kW, 2.411 kW, and 3.189 kW. Overcast periods dominate the difficult cases because a single total cloud-cover value, even with cloud-layer separation, cannot fully describe local cloud thickness, advection, and irradiance intermittency at a 5-min cadence.
+
+\input{tables/weather_regime_summary}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/weather_regime_errors.png}
+\caption{Error behavior by weather regime. Overcast and variable-cloud intervals carry the highest operational risk.}
+\label{fig:weather_regime}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/kt_vs_cloud_cover.png}
+\caption{Relationship between the learned or observed transmissivity signal and cloud cover. This diagnostic checks whether the Stage-1 target behaves physically under changing cloud conditions.}
+\label{fig:kt_cloud}
+\end{figure}
+
+Fig.~\ref{fig:kt_cloud} examines the intermediate physical variable rather than only the final power prediction. When cloud cover increases, transmissivity should generally decrease, although scatter is expected because cloud height, local motion, aerosols, humidity, and cloud-edge enhancement are not fully captured by the available variables.
+
+\subsection{Temporal and Seasonal Error Structure}
+
+The month-hour heatmap in Fig.~\ref{fig:heatmap} shows that the error field is structured rather than random. Midday periods tend to have larger absolute kW error because the plant has more available power, while low-sun periods are sensitive to small timing and geometry errors. Seasonal structure is also visible because Chennai weather is not constant across dry, hot, humid, and monsoon-influenced months.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/month_hour_error_heatmap.png}
+\caption{Month-hour MAE heatmap. The pattern combines solar-resource magnitude with seasonal cloud variability.}
+\label{fig:heatmap}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/diurnal_error_profile.png}
+\caption{Diurnal error profile. Absolute kW errors rise when the plant has high available power and become more sensitive around fast daylight transitions.}
+\label{fig:diurnal}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/monthly_power_spread.png}
+\caption{Monthly and hourly power spread in the held-out period. This view supports the seasonal interpretation of the heatmap.}
+\label{fig:monthly_spread}
+\end{figure}
+
+Together, Figs.~\ref{fig:heatmap}--\ref{fig:monthly_spread} show why a single overall RMSE is not enough for a PV forecasting assessment. A model can have good average accuracy while still being weaker in specific month-hour regimes that matter for operational planning.
+
+\subsection{Calibration and Residual Distribution}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/residual_distribution.png}
+\caption{Residual distribution for the held-out daylight test period. The distribution is centered near zero but contains ramp-driven tails.}
+\label{fig:residual_hist}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/calibration_bins.png}
+\caption{Calibration by predicted-power bins. High-output bins deserve separate attention because small irradiance errors become larger kW errors.}
+\label{fig:calibration}
+\end{figure}
+
+The residual histogram in Fig.~\ref{fig:residual_hist} is centered near zero, consistent with the small headline bias. The tails matter more operationally than the center: they represent cloud-driven events where forecast error can affect storage dispatch, inverter loading expectations, or grid-interface scheduling. The calibration view in Fig.~\ref{fig:calibration} checks whether the model systematically over- or under-predicts at different output levels rather than only on average.
+
+\subsection{Ramp-Rate and Worst-Day Diagnostics}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/ramp_rate_diagnostics.png}
+\caption{Ramp-rate diagnostics for measured and predicted power. Rapid cloud-edge transitions remain the main operational difficulty.}
+\label{fig:ramp}
+\end{figure}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/diagnostics/worst_error_days.png}
+\caption{Worst-error-day gallery. The largest residuals cluster around unstable weather and ramp-heavy intervals rather than ordinary clear-sky operation.}
+\label{fig:worst_days}
+\end{figure*}
+
+Fig.~\ref{fig:ramp} shows the challenge more directly: errors grow when power changes sharply between adjacent 5-min samples. Fig.~\ref{fig:worst_days} then isolates days that dominate the high-error tail. These plots show when the model is likely to be trusted and when an operator should expect larger uncertainty.
+
+\subsection{Energy and Distributional Views}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/results/daily_energy_tracking.png}
+\caption{Daily energy tracking from 5-min predictions. Aggregation reveals whether short-interval errors cancel or accumulate into day-level bias.}
+\label{fig:daily_energy}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/results/cumulative_energy.png}
+\caption{Cumulative energy comparison across the test period. Long-run divergence is a practical check for scheduling and energy-yield studies.}
+\label{fig:cumulative_energy}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/power_duration_curve.png}
+\caption{Power-duration comparison between measured and predicted output. Distributional agreement complements pointwise error metrics.}
+\label{fig:duration}
+\end{figure}
+
+Energy aggregation matters because a plant operator may care about day-level and week-level energy commitments in addition to 5-min accuracy. Figs.~\ref{fig:daily_energy} and \ref{fig:cumulative_energy} show whether forecast errors mostly cancel or accumulate. Fig.~\ref{fig:duration} adds a distributional check: a model that matches RMSE but distorts the power-duration curve would be weaker for yield studies and storage sizing.
+
+\subsection{Feature Interpretation}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/diagnostics/feature_importance_two_panel.png}
+\caption{Feature-importance summary for the two-stage pipeline. Dominant variables align with solar-resource availability, atmospheric attenuation, and short-term weather persistence.}
+\label{fig:importance}
+\end{figure}
+
+The feature-importance pattern in Fig.~\ref{fig:importance} supports the physics-guided framing. Solar-resource and theoretical-power features define the envelope, cloud variables alter the transmissivity estimate, and lagged weather variables help capture short-term persistence. The interpretation is not that tree importance proves causality; rather, the learned split structure is consistent with the expected PV generation mechanism.
+
+\subsection{Interpretation and Claim Boundaries}
+
+The results support a focused claim. The model is not universally superior to persistence, because the live 5-min last-value baseline is stronger under the present test setup. The supported claim is that the proposed target-weather-input pipeline improves over previous-day same-time persistence and over matched structural ablations while remaining physically interpretable. Deployment from forecast-style weather inputs is a compatible use case, but it requires target-time weather fields to be supplied before issue time and should be evaluated separately for each forecast lead time.
+
+The sensor-assisted model has a narrower role. It is not the main reported path because it uses measured irradiance-derived features at the target timestamp. It still estimates an upper bound on the plant-data mapping when the resource signal is known. The difference between 0.5228 kW RMSE for the sensor path and 2.8251 kW RMSE for the proposed path indicates that future improvements should focus on resource estimation: better weather forecasts, sky imagery, clear-sky-index persistence, local irradiance sensing, or probabilistic cloud-motion features.
+
+The ablation results provide a second claim boundary. The two-stage structure gives a meaningful improvement over direct single-stage XGBoost, but the cloud-layer improvement over total cloud cover alone is modest. Low-, mid-, and high-cloud features add measurable information in this dataset and help preserve interpretability, while the larger modeling decision is the two-stage transmissivity-to-power decomposition.
+
+Finally, the physical post-processing should be treated as a transparent engineering rule, not as proof that XGBoost is intrinsically physically constrained. The final prediction is bounded because Eqs.~\eqref{eq:kt_clip}--\eqref{eq:postprocess} clip the Stage-1 transmissivity estimate, construct a nonnegative theoretical-power envelope, and enforce the plant rating. This prevents impossible reported outputs, but it is not a monotonic constraint, constrained loss, or proof of physical consistency in every internal tree split.
+
+\input{tables/postprocessing_audit}
