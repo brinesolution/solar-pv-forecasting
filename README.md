@@ -40,7 +40,7 @@ results/
 ## Main Files
 
 - Notebook: `code/notebooks/current/solar_v7_main_training_and_inference.ipynb`
-- Dataset: `data/current_dataset/bycodex_realistic_43_624kw_vit_chennai_2021_2025_5min.csv`
+- Dataset: main CSV file in `data/current_dataset/`
 - Model metadata: `models/current_v7/v7_metadata.json`
 - Trained models:
   - `models/current_v7/kt_model_v7.pkl`
@@ -132,5 +132,9 @@ The trained model files are Python pickle artifacts. Only load them in a trusted
 ## Author
 
 Mayank Lohani  
-Bachelor of Technology in Computer Science and Engineering with specialization in Artificial Intelligence and Machine Learning  
+Bachelor of Technology in Computer Science and Engineering  
 School of Computer Science and Engineering, Vellore Institute of Technology, Chennai, India
+
+## License
+
+This project is released under the [MIT License](LICENSE).

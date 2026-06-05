@@ -5,7 +5,7 @@
 The main working dataset in this repository is:
 
 ```text
-data/current_dataset/bycodex_realistic_43_624kw_vit_chennai_2021_2025_5min.csv
+data/current_dataset/
 ```
 
 It uses the following core schema:
@@ -25,7 +25,7 @@ cloud_cover_mid
 cloud_cover_high
 ```
 
-This is the dataset used by the active notebook for training, validation, testing, figure generation, and forecast-CSV inference examples.
+The main CSV file in this folder is used by the active notebook for training, validation, testing, figure generation, and forecast examples.
 
 ## Training Archive
 
